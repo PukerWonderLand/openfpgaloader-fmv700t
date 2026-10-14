@@ -15,7 +15,7 @@ the last gap.
 
 ```bash
 # 0) an openFPGALoader that knows the device
-#    (upstream, or: git clone openFPGALoader && git am patches/*.patch)
+#    (upstream, or apply patches/ below, or pull the upstream PR #742)
 
 # 1) build the SPI-over-JTAG bridge from openFPGALoader's own RTL
 cd openFPGALoader/spiOverJtag
@@ -50,6 +50,11 @@ It is the only piece that cannot live in openFPGALoader itself, which is why it
 lives here.
 
 See [`docs/why.md`](docs/why.md) for the full breakdown.
+
+The changes that belong in openFPGALoader itself are submitted upstream as
+**[trabucayre/openFPGALoader#742](https://github.com/trabucayre/openFPGALoader/pull/742)**;
+the same patches are vendored in [`patches/`](patches/) so this repo stands on
+its own.
 
 ## What's in here
 
