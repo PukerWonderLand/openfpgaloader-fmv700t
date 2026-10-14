@@ -1,0 +1,54 @@
+From 0d2c0d425af052925e93fed2667c99da55b9087a Mon Sep 17 00:00:00 2001
+From: YangHao <44292772+PukerWonderLand@users.noreply.github.com>
+Date: Wed, 14 Oct 2026 16:04:27 +0800
+Subject: [PATCH] spiOverJtag: add XC7VX690T FFG1927 constraint file
+
+Adds the pin constraints for the XC7VX690T in the FFG1927 package so
+spiOverJtag helpers can be built for this package with build.py:
+
+  python3 build.py xc7vx690tffg1927 spi
+
+The pins are the dedicated dual-purpose configuration pins
+(csn=FCS_B, sdi_dq0=D00_MOSI, sdo_dq1=D01_DIN, wpn_dq2=D02, hldn_dq3=D03,
+all in bank 14), which are fixed by the package and therefore not
+board-specific.
+
+Signed-off-by: YangHao <44292772+PukerWonderLand@users.noreply.github.com>
+---
+ spiOverJtag/build.py                |  1 +
+ spiOverJtag/constr_xc7v_ffg1927.xdc | 11 +++++++++++
+ 2 files changed, 12 insertions(+)
+ create mode 100644 spiOverJtag/constr_xc7v_ffg1927.xdc
+
+diff --git a/spiOverJtag/build.py b/spiOverJtag/build.py
+index 5445f1a..dfeca2f 100755
+--- a/spiOverJtag/build.py
++++ b/spiOverJtag/build.py
+@@ -145,6 +145,7 @@ if tool in ["ise", "vivado"]:
+         "xc6slx150tfgg484" : "xc6s_t_fgg484",
+         "xc6vlx130tff784"  : "xc6v_ff784",
+         "xc7vx330tffg1157" : "xc7v_ffg1157",
++        "xc7vx690tffg1927" : "xc7v_ffg1927",
+         "xcku040-ffva1156" : "xcku040_ffva1156",
+         "xcku060-ffva1156" : "xcku060_ffva1156",
+         "xcvu9p-flga2104"  : "xcvu9p_flga2104",
+diff --git a/spiOverJtag/constr_xc7v_ffg1927.xdc b/spiOverJtag/constr_xc7v_ffg1927.xdc
+new file mode 100644
+index 0000000..0dfb508
+--- /dev/null
++++ b/spiOverJtag/constr_xc7v_ffg1927.xdc
+@@ -0,0 +1,11 @@
++set_property BITSTREAM.GENERAL.COMPRESS TRUE [current_design]
++set_property CONFIG_VOLTAGE 1.8 [current_design]
++# Table 1-2 from UG570
++set_property CFGBVS GND [current_design]
++set_property BITSTREAM.CONFIG.CONFIGRATE 33 [current_design]
++
++set_property -dict {PACKAGE_PIN BA29 IOSTANDARD LVCMOS18} [get_ports {csn}]
++set_property -dict {PACKAGE_PIN BC27 IOSTANDARD LVCMOS18} [get_ports {sdi_dq0}]
++set_property -dict {PACKAGE_PIN BD27 IOSTANDARD LVCMOS18} [get_ports {sdo_dq1}]
++set_property -dict {PACKAGE_PIN BD29 IOSTANDARD LVCMOS18} [get_ports {wpn_dq2}]
++set_property -dict {PACKAGE_PIN BD30 IOSTANDARD LVCMOS18} [get_ports {hldn_dq3}]
+-- 
+2.34.1
+

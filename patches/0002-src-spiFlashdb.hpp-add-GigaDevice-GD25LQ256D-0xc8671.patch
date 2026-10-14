@@ -1,0 +1,45 @@
+From 6695cec6959867c18a19f4bf27185f6884f7b01d Mon Sep 17 00:00:00 2001
+From: YangHao <44292772+PukerWonderLand@users.noreply.github.com>
+Date: Wed, 14 Oct 2026 15:58:11 +0800
+Subject: [PATCH] src/spiFlashdb.hpp: add GigaDevice GD25LQ256D (0xc86719)
+
+Parameters mirror the existing GD25LQ256H entry (0xc86019).
+
+Tested: erase, program and read-back verify of a full 32MiB image.
+
+Signed-off-by: YangHao <44292772+PukerWonderLand@users.noreply.github.com>
+---
+ src/spiFlashdb.hpp | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/src/spiFlashdb.hpp b/src/spiFlashdb.hpp
+index 1bac9c7..1c9b2b6 100644
+--- a/src/spiFlashdb.hpp
++++ b/src/spiFlashdb.hpp
+@@ -685,6 +685,23 @@ static std::map <uint32_t, flash_t> flash_list = {
+ 		.quad_mask = (1 << 1),  // QE = SR2 S9 = bit1 of byte read by RDSR-2 (0x35)
+ 		.global_lock = false,
+ 	}},
++	{0xc86719, {
++		/* https://www.gigadevice.com/product/flash/spi-nor-flash/gd25lq256d */
++		.manufacturer = "GigaDevice",
++		.model = "GD25LQ256D",
++		.nr_sector = 512,
++		.sector_erase = true,
++		.subsector_erase = true,
++		.has_extended = false,
++		.tb_otp = false,
++		.tb_offset = (1 << 6),  // BP4
++		.tb_register = STATR,
++		.bp_len = 4,
++		.bp_offset = {(1 << 2), (1 << 3), (1 << 4), (1 << 5)},
++		.quad_register = CONFR,
++		.quad_mask = (1 << 1),  // QE = SR2 S9 = bit1 of byte read by RDSR-2 (0x35)
++		.global_lock = false,
++	}},
+ 	{0xc22817, {
+ 		/* https://www.macronix.com/Lists/Datasheet/Attachments/8868/MX25R6435F,%20Wide%20Range,%2064Mb,%20v1.6.pdf */
+ 		.manufacturer = "Macronix",
+-- 
+2.34.1
+
